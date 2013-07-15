@@ -102,13 +102,13 @@ module Scraper
 
       def normalize(hsh)
         dates =
-          normalize_date_pair(hsh[:date].split(" - "))
-            .map { |date| Chronic.parse(date) }
+          normalize_date_pair(split_date(hsh[:date])).
+            map { |date| Chronic.parse(date) }
 
-        a, b = dates.first, dates.last
+        a, b = dates.first, dates.last # Will be identical if a single day event
         c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dates.first)
 
-        a, b, c = [a, b, c].map { |x| x.try(:strftime, "%F") }
+        a, b, c = [a, b, c].map { |x| x.strftime("%F") }
 
         hsh.merge({ start: a, end: b, mid: c })
       end
@@ -122,6 +122,22 @@ module Scraper
       end
 
     private
+
+      # Examples:
+      # => "January 12 2013"
+      # => "January 18 2013 at 19:00"
+      # => "March 8 - March 9 2012"
+      # => "October 27 2000 - January 21 2001"
+      def split_date(string)
+        case string
+          when /\s-\s/
+            string.split(" - ")
+          when /\sat\s/
+            [string.split(" at ").first] # Discard time
+          else # Always return Array
+            [string]
+        end
+      end
 
       def normalize_date_pair(pair)
         year =
@@ -137,6 +153,8 @@ module Scraper
     end # self
   end # Archiver
 end # Scraper
+
+# "January 18 2013 at 19:00"
 
 # {:title=>"Museum as Hub: Walking Drifting Dragging", :date=>"January 9 - February 3 2013"}
 
