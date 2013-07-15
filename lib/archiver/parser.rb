@@ -11,14 +11,7 @@ module Archiver
     end
 
     def normalized
-      @normalized ||=
-        occurrences.collect do |hsh|
-          begin
-            normalize(hsh)
-          rescue
-            puts hsh
-          end
-        end
+      @normalized ||= occurrences.collect { |hsh| normalize(hsh) }
     end
 
     def normalize(hsh)
@@ -33,8 +26,6 @@ module Archiver
 
       hsh.merge({ start: a, end: b, mid: c })
     end
-
-  private
 
     # Examples:
     # => "January 12 2013"
