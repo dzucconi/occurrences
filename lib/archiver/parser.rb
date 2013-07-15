@@ -42,7 +42,7 @@ module Archiver
     # => "March 8 - March 9 2012"
     # => "October 27 2000 - January 21 2001"
     # => "after May 3 2001"
-    # => "October 13 2012 at 15:00 - 16:00"}
+    # => "October 13 2012 at 15:00 - 16:00"
     def split_date(string)
       case string
         # Check for the presence of "at" first
