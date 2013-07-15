@@ -12,6 +12,13 @@ task :archive do
   archive!
 end
 
+desc "Refresh archive"
+task :refresh_archive do
+  require File.expand_path("../lib", __FILE__) + "/archiver"
+
+  archive!(true)
+end
+
 desc "Run specs"
 task :spec do
   require "rspec/core/rake_task"
