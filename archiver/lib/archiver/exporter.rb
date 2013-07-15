@@ -10,7 +10,7 @@ module Archiver
     end
 
     def to_json
-      Oj.dump(data)
+      Oj.dump(data, mode: :compat)
     end
 
     def write!

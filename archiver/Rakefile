@@ -5,6 +5,13 @@ task :console do
   sh "irb -rubygems -I lib -r archiver.rb"
 end
 
+desc "Archive"
+task :archive do
+  require File.expand_path("../lib", __FILE__) + "/archiver"
+
+  archive!
+end
+
 desc "Run specs"
 task :spec do
   require "rspec/core/rake_task"
