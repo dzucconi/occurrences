@@ -153,12 +153,3 @@ module Scraper
     end # self
   end # Archiver
 end # Scraper
-
-# "January 18 2013 at 19:00"
-
-# {:title=>"Museum as Hub: Walking Drifting Dragging", :date=>"January 9 - February 3 2013"}
-
-# xxith_links =
-#   ending_dates.collect do |date|
-#     "http://xxith.com/?year=#{date.year}&month=#{date.strftime("%B")}&day=#{date.day}"
-#   end
