@@ -27,17 +27,19 @@
   var initialize = function() {
     $.getJSON("archiver/lib/data/data.json", function(data) {
       var links = $.map(data, function(record) {
-        var date = record.mid.split("-");
+        var date, options, href;
 
-        var options = {
-          year: date[0],
-          month: months[date[1] - 1],
-          day: date[2],
-          color: randomColor(),
-          bgcolor: randomColor()
+        date = record.mid.split("-");
+
+        options = {
+          year:     date[0],
+          month:    months[date[1] - 1],
+          day:      date[2],
+          color:    randomColor(),
+          bgcolor:  randomColor()
         };
 
-        var href = queryString(options);
+        href = queryString(options);
 
         return "<a href='" + href + "' target='_blank'>" + record.title + "</a>";
       });
