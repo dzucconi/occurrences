@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
 describe "Archiver::Parser" do
   before do
-    @parser = Archiver::Parser.new(Archiver::Scraper.data)
+    @parser = Archiver::Parser.new(Archiver::Scraper.new.data)
   end
 
   it "should be able to split a date (1)" do
