@@ -7,8 +7,26 @@ class Object
     if a.empty? && block_given?
       yield self
     else
-      __send__(*a, &b)
+      public_send(*a, &b) if respond_to?(a.first)
     end
+  end
+
+  def try!(*a, &b)
+    if a.empty? && block_given?
+      yield self
+    else
+      public_send(*a, &b)
+    end
+  end
+end
+
+class NilClass
+  def try(*args)
+    nil
+  end
+
+  def try!(*args)
+    nil
   end
 end
 
@@ -79,24 +97,20 @@ module Scraper
 
       def normalized
         @normalized ||=
-          occurrences.collect do |hsh|
-            dates =
-              normalize_date_pair(hsh[:date].
-                split(" - ")).
-                map { |date| Chronic.parse(date) }
+          occurrences.collect { |hsh| normalize(hsh) }
+      end
 
-            a, b = dates.first, dates.last
-            c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dates.first)
+      def normalize(hsh)
+        dates =
+          normalize_date_pair(hsh[:date].split(" - "))
+            .map { |date| Chronic.parse(date) }
 
-            puts "#{hsh[:title]}: #{a} #{b} #{c}"
-            unless [a, b, c].all?(&:nil?)
-              puts "OK"
-              [a, b, c].map! { |x| x.strftime("%F") }
-              puts "----"
-            end
+        a, b = dates.first, dates.last
+        c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dates.first)
 
-            hsh.merge({ start: a, end: b, mid: c })
-          end
+        a, b, c = [a, b, c].map { |x| x.try(:strftime, "%F") }
+
+        hsh.merge({ start: a, end: b, mid: c })
       end
 
       def to_json
@@ -124,12 +138,7 @@ module Scraper
   end # Archiver
 end # Scraper
 
-# File.open("./tmp/") { |f| f.write(data) }
-
-# ending_dates =
-#   data.collect do |exhibition|
-#     Chronic.parse(exhibition[1].split(" - ").pop)
-#   end
+# {:title=>"Museum as Hub: Walking Drifting Dragging", :date=>"January 9 - February 3 2013"}
 
 # xxith_links =
 #   ending_dates.collect do |date|
