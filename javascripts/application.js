@@ -27,7 +27,7 @@
   ];
 
   var initialize = function() {
-    $.getJSON("/archiver/lib/data/data.json", function(data) {
+    $.getJSON("archiver/lib/data/data.json", function(data) {
       var links = $.map(data, function(record) {
         var date = record.mid.split("-");
 
