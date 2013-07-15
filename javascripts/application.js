@@ -4,11 +4,9 @@
   };
 
   var queryString = function(options) {
-    var _queryString = $.map(options, function(value, key) {
+    return "http://xxith.com/?" + $.map(options, function(value, key) {
       return key + "=" + value;
     }).join("&");
-
-    return "http://xxith.com/?" + _queryString
   }
 
   var months = [
@@ -44,7 +42,7 @@
         return "<a href='" + href + "' target='_blank'>" + record.title + "</a>";
       });
 
-      $("body").html(links.join("<br>"));
+      $("body").html(links.join(""));
     });
   }
 
