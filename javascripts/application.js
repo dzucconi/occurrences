@@ -45,7 +45,7 @@
   var initialize = function() {
     $.getJSON("archiver/lib/data/data.json", function(data) {
       var links = $.map($.shuffle(data), function(record) {
-        var date, options, href;
+        var date, options;
 
         date = record.mid.split("-");
 
@@ -57,9 +57,9 @@
           bgcolor:  $.randomColor()
         };
 
-        href = "http://xxith.com/?" + $.toQueryString(options);
-
-        return "<a href='" + href + "' target='_blank'>" + record.title + "</a>";
+        return "<a href='http://xxith.com/?" + $.toQueryString(options) + "' target='_blank'>" +
+          record.title +
+        "</a>";
       });
 
       $("body").html(links.join(""));
