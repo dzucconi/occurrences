@@ -16,7 +16,7 @@
   };
 }(jQuery));
 
-;(function(exports) {
+(function(exports) {
   var randomColor = function() {
     return "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
   };
