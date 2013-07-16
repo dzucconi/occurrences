@@ -1,2 +1,5 @@
-a { display: block; }
-  a:hover { background-color: #eee; }
+a {
+  display: block;
+  text-decoration: none;
+}
+  a:hover { text-decoration: underline; }
