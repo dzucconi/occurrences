@@ -62,7 +62,7 @@
         "</a>";
       });
 
-      $("body").html(links.join(""));
+      $("body").html(links.join(", "));
     });
   }
 
