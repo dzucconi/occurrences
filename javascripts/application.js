@@ -6,7 +6,7 @@
     length = arr.length;
 
     while (--length > 0) {
-      j           = ~~(Math.random() * (length + 1)); // double NOT bitwise operator as substitute for Math.floor
+      j           = ~~(Math.random() * (length + 1));
       t           = arr[j];
       arr[j]      = arr[length];
       arr[length] = t;
