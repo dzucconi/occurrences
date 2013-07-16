@@ -1,4 +1,6 @@
 (function($) {
+  "use strict";
+
   // Fisher-Yates shuffle
   $.shuffle = function(arr) {
     var length, j, t;
@@ -27,7 +29,11 @@
 }(jQuery));
 
 (function(exports) {
-  var months = [
+  "use strict";
+
+  var months, initialize;
+
+  months = [
     "January",
     "February",
     "March",
@@ -42,7 +48,7 @@
     "December"
   ];
 
-  var initialize = function() {
+  initialize = function() {
     $.getJSON("archiver/lib/data/data.json", function(data) {
       var links = $.map($.shuffle(data), function(record) {
         var date, options;
