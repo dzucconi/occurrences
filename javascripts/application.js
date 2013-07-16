@@ -6,27 +6,27 @@
     length = arr.length;
 
     while (--length > 0) {
-      j           = ~~(Math.random() * (length + 1));
+      j           = ~~(Math.random() * (length + 1)); // double NOT bitwise operator as substitute for Math.floor
       t           = arr[j];
       arr[j]      = arr[length];
       arr[length] = t;
-    }
+    };
 
     return arr;
+  };
+
+  $.toQueryString = function(options) {
+    return $.map(options, function(value, key) {
+      return key + "=" + value;
+    }).join("&");
+  };
+
+  $.randomColor = function() {
+    return "#" + ("000000" + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
   };
 }(jQuery));
 
 (function(exports) {
-  var randomColor = function() {
-    return "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
-  };
-
-  var queryString = function(options) {
-    return "http://xxith.com/?" + $.map(options, function(value, key) {
-      return key + "=" + value;
-    }).join("&");
-  }
-
   var months = [
     "January",
     "February",
@@ -53,11 +53,11 @@
           year:     date[0],
           month:    months[date[1] - 1],
           day:      date[2],
-          color:    randomColor(),
-          bgcolor:  randomColor()
+          color:    $.randomColor(),
+          bgcolor:  $.randomColor()
         };
 
-        href = queryString(options);
+        href = "http://xxith.com/?" + $.toQueryString(options);
 
         return "<a href='" + href + "' target='_blank'>" + record.title + "</a>";
       });
