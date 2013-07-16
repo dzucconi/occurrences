@@ -1,3 +1,21 @@
+(function($) {
+  // Fisher-Yates shuffle
+  $.shuffle = function(arr) {
+    var length, j, t;
+
+    length = arr.length;
+
+    while (--length > 0) {
+      j           = ~~(Math.random() * (length + 1));
+      t           = arr[j];
+      arr[j]      = arr[length];
+      arr[length] = t;
+    }
+
+    return arr;
+  };
+}(jQuery));
+
 ;(function(exports) {
   var randomColor = function() {
     return "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
@@ -26,7 +44,7 @@
 
   var initialize = function() {
     $.getJSON("archiver/lib/data/data.json", function(data) {
-      var links = $.map(data, function(record) {
+      var links = $.map($.shuffle(data), function(record) {
         var date, options, href;
 
         date = record.mid.split("-");
