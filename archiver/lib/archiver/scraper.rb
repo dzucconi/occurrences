@@ -1,6 +1,8 @@
+require "logger"
+
 module Archiver
   class Scraper
-    attr_reader :agent, :urls, :refresh
+    attr_reader :agent, :urls, :refresh, :log
 
     def initialize(options={})
       options.reverse_merge!({
@@ -14,6 +16,7 @@ module Archiver
       @agent    = Mechanize.new
       @refresh  = options[:refresh]
       @urls     = options[:urls]
+      @log      = Logger.new(STDOUT)
     end
 
     def data
@@ -62,12 +65,14 @@ module Archiver
     # @return [Hash]
     def fetch_and_parse(url)
       begin
-        puts "Getting: #{url} ..."
+        logger.info("Getting: #{url} ...")
+
         page = agent.get(url)
 
         parse(page)
       rescue
-        puts "Failed: #{url}"
+        logger.warn("Failed: #{url}")
+
         { failure: true, url: url}
       end
     end
