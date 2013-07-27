@@ -34,6 +34,7 @@ module Archiver
     # => "October 27 2000 - January 21 2001"
     # => "after May 3 2001"
     # => "October 13 2012 at 15:00 - 16:00"
+    # => "2002"
     def split_date(string)
       case string
         # Check for the presence of "at" first
@@ -48,18 +49,23 @@ module Archiver
       end
     end
 
+    def bare_year?(string)
+      string =~ /(^\d{4}$)/
+    end
+
     # Accepts an Array of strings, and gets a single year from the pair
     # Maps over the array and if the item has a year already; leave it alone
     # If not then assume it's the year we've parsed out
     def normalize_date_pair(pair)
-      year =
-        pair.
-          collect { |s| s.match(/\d\d\d\d/).to_s }.
-          reject(&:empty?).
-          first
+      # Destructively prepends "January 1" if an element of the pair is a bare year
+      pair.map! { |x| bare_year?(x) ? "January 1 #{x}" : x }
 
-      pair.collect do |s|
-        s =~ /\d\d\d\d/ ? s : "#{s} #{year}"
+      year = pair.map { |x|
+        x.match(/\d\d\d\d/).to_s
+      }.reject(&:empty?).first
+
+      pair.map do |x|
+        x =~ /\d{4}/ ? x : "#{x} #{year}"
       end
     end
   end # Parser
