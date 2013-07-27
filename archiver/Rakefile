@@ -5,25 +5,27 @@ task :console do
   sh "irb -rubygems -I lib -r archiver.rb"
 end
 
-desc "Archive"
-task :archive do
-  require File.expand_path("../lib", __FILE__) + "/archiver"
-
-  archive!
-end
-
-desc "Refresh archive"
-task :refresh_archive do
-  require File.expand_path("../lib", __FILE__) + "/archiver"
-
-  archive!(true)
-end
-
 desc "Run specs"
 task :spec do
   require "rspec/core/rake_task"
 
   RSpec::Core::RakeTask.new(:spec) do |spec|
     spec.rspec_opts = %w{--colour --format progress}
+  end
+end
+
+namespace :archive do
+  desc "Parses the data to output a JSON file"
+  task :export do
+    require File.expand_path("../lib", __FILE__) + "/archiver"
+
+    archive!
+  end
+
+  desc "Refreshes the data before parsing then outputs a JSON file"
+  task :refresh do
+    require File.expand_path("../lib", __FILE__) + "/archiver"
+
+    archive!(true)
   end
 end
