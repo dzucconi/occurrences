@@ -65,7 +65,7 @@ describe "Archiver::Parser" do
       should == ["October 13 2012"]
   end
 
-  it "should be able to normalize a pair of date strings (6)" do
+  it "should be able to normalize a pair of date strings (7)" do
     @parser.normalize_date_pair(["October 13 2012", "October 24"]).
       should == ["October 13 2012", "October 24 2012"]
   end
