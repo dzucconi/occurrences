@@ -53,15 +53,22 @@ module Archiver
       string =~ /(^\d{4}$)/
     end
 
+    def full_year?(pair)
+      pair.size == 1 && bare_year?(pair.first)
+    end
+
+    def full_year!(pair)
+      ["January 1 #{pair.first}", "December 31 #{pair.first}"]
+    end
+
     # Accepts an Array of strings, and gets a single year from the pair
     # Maps over the array and if the item has a year already; leave it alone
     # If not then assume it's the year we've parsed out
     def normalize_date_pair(pair)
-      # Destructively prepends "January 1" if an element of the pair is a bare year
-      pair.map! { |x| bare_year?(x) ? "January 1 #{x}" : x }
+      pair = full_year!(pair) if full_year?(pair)
 
       year = pair.map { |x|
-        x.match(/\d\d\d\d/).to_s
+        x.match(/\d{4}/).to_s
       }.reject(&:empty?).first
 
       pair.map do |x|
