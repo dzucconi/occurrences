@@ -10,6 +10,7 @@ require_relative "core_ext/object"
 require_relative "core_ext/array"
 require_relative "core_ext/time"
 
+require_relative "archiver/defaults"
 require_relative "archiver/scraper"
 require_relative "archiver/parser"
 require_relative "archiver/exporter"
