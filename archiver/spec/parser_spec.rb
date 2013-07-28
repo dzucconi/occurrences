@@ -77,7 +77,7 @@ describe "Archiver::Parser" do
 
   it "should be able to normalize a pair of date strings (8)" do
     @parser.normalize_date_pair(["2002"]).
-      should == ["January 1 2002"]
+      should == ["January 1 2002", "December 31 2002"]
   end
 
   it "should have the keys :start, :end, and :mid when normalized" do
