@@ -67,9 +67,9 @@ module Archiver
     def normalize_date_pair(pair)
       pair = full_year!(pair) if full_year?(pair)
 
-      year = pair.map { |x|
+      year = pair.map do |x|
         x.match(/\d{4}/).to_s
-      }.reject(&:empty?).first
+      end.reject(&:empty?).first
 
       pair.map do |x|
         x =~ /\d{4}/ ? x : "#{x} #{year}"
