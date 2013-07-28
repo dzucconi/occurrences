@@ -11,7 +11,7 @@ module Archiver
     end
 
     def normalized
-      @normalized ||= occurrences.collect { |hsh| normalize(hsh) }
+      @normalized ||= occurrences.map { |hsh| normalize(hsh) }
     end
 
     def normalize(hsh)
