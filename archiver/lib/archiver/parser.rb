@@ -61,9 +61,9 @@ module Archiver
       ["January 1 #{pair.first}", "December 31 #{pair.first}"]
     end
 
-    # Accepts an Array of strings, and gets a single year from the pair
-    # Maps over the array and if the item has a year already; leave it alone
-    # If not then assume it's the year we've parsed out
+    # Accepts a two-element Array of strings, and gets a single year from the pair.
+    # Maps over the array and if the item has a year already; leave it alone.
+    # If not then assume it's the year we've parsed out.
     def normalize_date_pair(pair)
       pair = full_year!(pair) if full_year?(pair)
 
