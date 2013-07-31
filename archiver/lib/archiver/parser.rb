@@ -22,9 +22,9 @@ module Archiver
       a, b = dt[:date].first, dt[:date].last # Will be identical if a single day event
       c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dt[:date].first)
 
-      a, b, c = [a, b, c].map { |x| x.strftime("%F") }
+      a, b, c = [a, b, c].map { |x| x.strftime("%F").split("-") }
 
-      d = { starting: dt[:time].first, ending: dt[:time].last } unless dt[:time].nil?
+      d = { starting: dt[:time].first.split(":"), ending: dt[:time].last.split(":") } unless dt[:time].nil?
 
       hsh.merge({ starting: a, ending: b, mid: c, time: d })
     end
