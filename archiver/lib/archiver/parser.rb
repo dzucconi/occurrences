@@ -15,19 +15,21 @@ module Archiver
     end
 
     def normalize(hsh)
-      dates =
-        normalize_date_pair(split_date(hsh[:date])).
-          map { |date| Chronic.parse(date) }
+      dt = split_date(hsh[:date])
 
-      a, b = dates.first, dates.last # Will be identical if a single day event
-      c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dates.first)
+      dt[:date] = dt[:date].map { |date| Chronic.parse(date) }
+
+      a, b = dt[:date].first, dt[:date].last # Will be identical if a single day event
+      c    = (a && b ? (a.to_datetime + ((b.to_datetime - a.to_datetime).to_i / 2)) : dt[:date].first)
 
       a, b, c = [a, b, c].map { |x| x.strftime("%F") }
 
-      hsh.merge({ start: a, end: b, mid: c })
+      d = { starting: dt[:time].first, ending: dt[:time].last } unless dt[:time].nil?
+
+      hsh.merge({ starting: a, ending: b, mid: c, time: d })
     end
 
-    # Examples:
+    # Example input
     # => "January 12 2013"
     # => "January 18 2013 at 19:00"
     # => "March 8 - March 9 2012"
@@ -37,15 +39,15 @@ module Archiver
     # => "2002"
     def split_date(string)
       case string
-        # Check for the presence of "at" first
         when /\sat\s/
-          [string.split(" at ").first] # Discard time
+          split = string.split(" at ")
+          { date: normalize_date_pair([split.first]), time: split.last.split(" - ") }
         when /\s-\s/
-          string.split(" - ")
+          { date: normalize_date_pair(string.split(" - ")), time: nil }
         when /^after /
-          [string.gsub("after", "").strip]
-        else # Always return Array
-          [string]
+          { date: normalize_date_pair([string.gsub("after", "").strip]), time: nil }
+        else
+          { date: normalize_date_pair([string]), time: nil }
       end
     end
 
