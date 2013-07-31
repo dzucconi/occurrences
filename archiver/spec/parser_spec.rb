@@ -53,11 +53,11 @@ describe "Archiver::Parser" do
 
   it "should be able to normalize an input (1)" do
     @parser.normalize({:title=>"Outside New York: Lectures on Contemporary Creative Activity in the United States and England", :date=>"November 8 1978"}).
-      should eq({:title=>"Outside New York: Lectures on Contemporary Creative Activity in the United States and England", :date=>"November 8 1978", :starting=>"1978-11-08", :ending=>"1978-11-08", :mid=>"1978-11-08", :time=>nil})
+      should eq({:title=>"Outside New York: Lectures on Contemporary Creative Activity in the United States and England", :date=>"November 8 1978", :starting=>["1978","11","08"], :ending=>["1978","11","08"], :mid=>["1978","11","08"], :time=>nil})
   end
 
   it "should be able to normalize an input (2)" do
     @parser.normalize({:title=>"Judith Bernstein and Paul McCarthy in Conversation", :date=>"January 18 2013 at 19:00"}).
-      should eq({:title=>"Judith Bernstein and Paul McCarthy in Conversation", :date=>"January 18 2013 at 19:00", :starting=>"2013-01-18", :ending=>"2013-01-18", :mid=>"2013-01-18", :time=>{:starting=>"19:00", :ending=>"19:00"}})
+      should eq({:title=>"Judith Bernstein and Paul McCarthy in Conversation", :date=>"January 18 2013 at 19:00", :starting=>["2013","01","18"], :ending=>["2013","01","18"], :mid=>["2013","01","18"], :time=>{:starting=>["19","00"], :ending=>["19","00"]}})
   end
 end
