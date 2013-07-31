@@ -51,17 +51,22 @@
   initialize = function() {
     $.getJSON("archiver/lib/data/data.json", function(data) {
       var links = $.map($.shuffle(data), function(record) {
-        var date, options;
-
-        date = record.mid.split("-");
+        var options;
 
         options = {
-          year:     date[0],
-          month:    months[date[1] - 1],
-          day:      date[2],
+          year:     record.ending[0],
+          month:    months[record.ending[1] - 1],
+          day:      record.ending[2],
           color:    $.randomColor(),
           bgcolor:  $.randomColor()
         };
+
+        if (record.time != null) {
+          $.extend(options, {
+            hour:   record.time.ending[0],
+            minute: record.time.ending[1]
+          });
+        }
 
         return "<a href='http://xxith.com/?" + $.toQueryString(options) + "' target='_blank'>" +
           record.title +
