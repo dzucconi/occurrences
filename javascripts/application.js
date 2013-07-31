@@ -24,7 +24,7 @@
   };
 
   $.randomColor = function() {
-    return "#" + ("000000" + (Math.random() * 0xFFFFFF << 0).toString(16)).slice(-6);
+    return "%23" + ("000000" + (Math.random() * 0xFFFFFF << 0).toString(16)).slice(-6);
   };
 }(jQuery));
 
